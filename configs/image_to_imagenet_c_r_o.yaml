@@ -10,7 +10,7 @@ data:
     data_workers: 3 # how many workers to use for train dataloaders
     batch_size: 36 # batch_size for source domain and target domain respectively
 model:
-  base_model: resnet50
+  base_model: vit # resnet50
   temp: 0.05
 train:
   min_step: 10000 # minimum steps to run. run epochs until it exceeds the minStep

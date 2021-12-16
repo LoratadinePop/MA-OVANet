@@ -58,7 +58,7 @@ def default_loader(path):
 
 def make_dataset_nolist(image_list):
     with open(image_list) as f:
-        image_index = [x.split(' ')[0] for x in f.readlines()]
+        image_index = [x.split(' ')[0] for x in f.readlines()] # image_path in val_data
     with open(image_list) as f:
         label_list = []
         selected_list = []
@@ -111,7 +111,6 @@ class ImageFolder(data.Dataset):
         Returns:
             tuple: (image, target) where target is class_index of the target class.
         """
-
         path = self.imgs[index]
         target = self.labels[index]
         img = self.loader(path)

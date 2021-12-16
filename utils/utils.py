@@ -35,7 +35,7 @@ def log_set(kwargs, name=None):
         logname = name
     else:
         logname = "{file}_{source}2{target}_{network}_hp_{hp}".format(file=script_name.replace(".py", ""),
-                                                                               source=source_data.split("_")[1],
+                                                                               source=source_data, # .split("_")[1]
                                                                                target=target_data,
                                                                                network=network,
                                                                                hp=str(multi))

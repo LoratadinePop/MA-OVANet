@@ -28,13 +28,15 @@ def test(step, dataset_test, name, n_share, G, Cs,
             out_t = Cs[0](feat)
             pred = out_t.data.max(1)[1]
             correct_close += pred.eq(label_t.data).cpu().sum()
-            out_t = F.softmax(out_t)
+            #TAG: out_t = F.softmax(out_t)
+            out_t = F.softmax(out_t, dim=1)
             if entropy:
                 pred_unk = -torch.sum(out_t * torch.log(out_t), 1)
             else:
                 out_open = Cs[1](feat)
                 out_open = F.softmax(out_open.view(out_t.size(0), 2, -1),1)
-                tmp_range = torch.range(0, out_t.size(0)-1).long().cuda()
+                # tmp_range = torch.range(0, out_t.size(0)-1).long().cuda()
+                tmp_range = torch.arange(0, out_t.size(0)).long().cuda()
                 pred_unk = out_open[tmp_range, 0, pred]
             correct += pred.eq(label_t.data).cpu().sum()
             pred = pred.cpu().numpy()

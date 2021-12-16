@@ -124,7 +124,7 @@ python eval_pretrained_resnet.py --config ./configs/image_to_objectnet_imagenet_
 ---
 In the paper, OVANet has one parameter (multi) to be tuned. 
 
-(1) ImageNet -> ObjectNet +  ImageNet-C,R,O:
+(1) ImageNet -> ObjectNet
 
 ```
 python train_ovanet.py --config ./configs/image_to_objectnet.yaml --source_data <imagenet_data_path>/ILSVRC2012_train/ --target_data ./data_prep_utils/val_filelists/objectnet_filelist.txt 

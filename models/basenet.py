@@ -2,13 +2,39 @@ from torchvision import models
 import torch
 import torch.nn.functional as F
 import torch.nn as nn
+import timm
+from pytorch_revgrad import RevGrad
+# class ResBase(nn.Module):
+#     def __init__(self, option='resnet50', pret=True, top=False):
+#         super(ResBase, self).__init__()
+#         self.dim = 2048
+#         self.top = top
+#         if option == 'resnet18':
+#             model_ft = models.resnet18(pretrained=pret)
+#             self.dim = 512
+#         if option == 'resnet34':
+#             model_ft = models.resnet34(pretrained=pret)
+#             self.dim = 512
+#         if option == 'resnet50':
+#             model_ft = models.resnet50(pretrained=pret)
+#         if option == 'resnet101':
+#             model_ft = models.resnet101(pretrained=pret)
+#         if option == 'resnet152':
+#             model_ft = models.resnet152(pretrained=pret)
 
-
+#         if top:
+#             self.features = model_ft
+#         else:
+#             mod = list(model_ft.children())
+#             mod.pop()
+#             self.features = nn.Sequential(*mod)
+# TAG:
 class ResBase(nn.Module):
     def __init__(self, option='resnet50', pret=True, top=False):
         super(ResBase, self).__init__()
         self.dim = 2048
         self.top = top
+        option ='vit'
         if option == 'resnet18':
             model_ft = models.resnet18(pretrained=pret)
             self.dim = 512
@@ -21,6 +47,8 @@ class ResBase(nn.Module):
             model_ft = models.resnet101(pretrained=pret)
         if option == 'resnet152':
             model_ft = models.resnet152(pretrained=pret)
+        if option == 'vit':
+            model_ft = timm.create_model('vit_base_patch16_224',pretrained=True)
 
         if top:
             self.features = model_ft
@@ -28,7 +56,6 @@ class ResBase(nn.Module):
             mod = list(model_ft.children())
             mod.pop()
             self.features = nn.Sequential(*mod)
-
 
     def forward(self, x):
         x = self.features(x)

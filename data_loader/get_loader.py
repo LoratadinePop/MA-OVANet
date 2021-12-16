@@ -13,19 +13,25 @@ def get_loader(source_path, target_path, evaluation_path, transforms,
     # source_folder = ImageFolder(os.path.join(source_path),
     #                             transforms[source_path],
     #                             return_id=return_id)
+    # source data
     source_folder = torchvision.datasets.ImageFolder(os.path.join(source_path), transform=transforms[source_path])
 
+    # target_data
+    # (img, target, index)
     target_folder_train = ImageFolder(os.path.join(target_path),
                                   transform=transforms[target_path],
                                   return_paths=False, return_id=return_id)
+    # No val
     if val:
         source_val_train = ImageFolder(val_data, transforms[source_path], return_id=return_id)
         target_folder_train = torch.utils.data.ConcatDataset([target_folder_train, source_val_train])
         source_val_test = ImageFolder(val_data, transforms[evaluation_path], return_id=return_id)
+    
+    # eval data, equal to target data, except transforms are different
+    # (img, target, path)
     eval_folder_test = ImageFolder(os.path.join(evaluation_path),
                                    transform=transforms["eval"],
                                    return_paths=True)
-
 
     if balanced:
         freq = Counter(source_folder.targets)
@@ -54,11 +60,13 @@ def get_loader(source_path, target_path, evaluation_path, transforms,
         shuffle=True,
         drop_last=True,
         num_workers=4)
+    # eval
     test_loader = torch.utils.data.DataLoader(
         eval_folder_test,
         batch_size=batch_size,
         shuffle=False,
         num_workers=4)
+    # No val
     if val:
         test_loader_source = torch.utils.data.DataLoader(
             source_val_test,

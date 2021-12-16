@@ -8,12 +8,13 @@ data:
   dataloader:
     class_balance: true #
     data_workers: 3 # how many workers to use for train dataloaders
-    batch_size: 36 # batch_size for source domain and target domain respectively
+    batch_size: 18 # batch_size for source domain and target domain respectively
 model:
-  base_model: resnet50
+  base_model: vit
   temp: 0.05
 train:
   min_step: 10000 # minimum steps to run. run epochs until it exceeds the minStep
+  adv_step: 30000 # 
   lr: 0.01 # learning rate for new layers. learning rate for finetune is 1/10 of lr
   multi: 0.1
   weight_decay: 0.0005
